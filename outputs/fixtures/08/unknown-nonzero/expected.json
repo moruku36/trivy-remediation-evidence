@@ -1,0 +1,40 @@
+{
+  "oracleVersion": 1,
+  "comparison": "comparison_unavailable",
+  "cliExitCode": 2,
+  "globalReasonCodes": [
+    "EXECUTION_STATUS_UNKNOWN"
+  ],
+  "observedCounts": {
+    "before": 1,
+    "after": 1
+  },
+  "summary": {
+    "new": 0,
+    "persistent": 0,
+    "not_detected": 0,
+    "comparison_unavailable": 1
+  },
+  "items": [
+    {
+      "identity": {
+        "imageLogicalId": "synthetic-app",
+        "targetLogicalId": "app-lock",
+        "path": "app/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "packageName": "demo",
+        "vulnerabilityId": "SYNTH-001"
+      },
+      "classification": "comparison_unavailable",
+      "beforePointers": [
+        "/Results/0/Vulnerabilities/0"
+      ],
+      "afterPointers": [
+        "/Results/0/Vulnerabilities/0"
+      ],
+      "remediationConclusion": "not_established"
+    }
+  ],
+  "assertions": []
+}

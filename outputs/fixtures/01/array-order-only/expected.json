@@ -1,0 +1,61 @@
+{
+  "oracleVersion": 1,
+  "comparison": "comparable",
+  "cliExitCode": 0,
+  "globalReasonCodes": [],
+  "observedCounts": {
+    "before": 2,
+    "after": 2
+  },
+  "summary": {
+    "new": 0,
+    "persistent": 2,
+    "not_detected": 0,
+    "comparison_unavailable": 0
+  },
+  "items": [
+    {
+      "identity": {
+        "imageLogicalId": "synthetic-app",
+        "targetLogicalId": "app-lock",
+        "path": "app/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "packageName": "demo",
+        "vulnerabilityId": "SYNTH-001"
+      },
+      "classification": "persistent",
+      "beforePointers": [
+        "/Results/0/Vulnerabilities/0"
+      ],
+      "afterPointers": [
+        "/Results/1/Vulnerabilities/0"
+      ],
+      "remediationConclusion": "not_established"
+    },
+    {
+      "identity": {
+        "imageLogicalId": "synthetic-app",
+        "targetLogicalId": "py-lock",
+        "path": "srv/requirements.txt",
+        "class": "lang-pkgs",
+        "ecosystem": "pip",
+        "packageName": "py-demo",
+        "vulnerabilityId": "SYNTH-002"
+      },
+      "classification": "persistent",
+      "beforePointers": [
+        "/Results/1/Vulnerabilities/0"
+      ],
+      "afterPointers": [
+        "/Results/0/Vulnerabilities/0"
+      ],
+      "remediationConclusion": "not_established"
+    }
+  ],
+  "assertions": [
+    "identityと分類は順序に依存しない",
+    "生hashと元JSON Pointerの差は保持する",
+    "Markdown入力値はescapeする"
+  ]
+}

@@ -1,0 +1,867 @@
+{
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "comparison": {
+      "enum": [
+        "comparable",
+        "comparison_unavailable"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "properties": {
+          "side": {
+            "enum": [
+              "before",
+              "after"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "report",
+              "manifest"
+            ]
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "parseState": {
+            "enum": [
+              "valid",
+              "invalid_json",
+              "invalid_schema",
+              "unreadable",
+              "limit_exceeded"
+            ]
+          }
+        },
+        "required": [
+          "side",
+          "kind",
+          "sha256",
+          "parseState"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "scanEvidence": {
+      "type": "object",
+      "properties": {
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/scanEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/scanEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "before",
+        "after"
+      ],
+      "additionalProperties": false
+    },
+    "globalReasons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reason"
+      }
+    },
+    "observedCounts": {
+      "type": "object",
+      "properties": {
+        "before": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "before",
+        "after"
+      ],
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "new": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "persistent": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "not_detected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "comparison_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "new",
+        "persistent",
+        "not_detected",
+        "comparison_unavailable"
+      ],
+      "additionalProperties": false
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "identity": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/identity"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "classification": {
+            "enum": [
+              "new",
+              "persistent",
+              "not_detected",
+              "comparison_unavailable"
+            ]
+          },
+          "remediationConclusion": {
+            "const": "not_established"
+          },
+          "before": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/observation"
+            }
+          },
+          "after": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/observation"
+            }
+          },
+          "reasons": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/reason"
+            }
+          }
+        },
+        "required": [
+          "identity",
+          "classification",
+          "remediationConclusion",
+          "before",
+          "after",
+          "reasons"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "comparison",
+    "sources",
+    "scanEvidence",
+    "globalReasons",
+    "observedCounts",
+    "summary",
+    "items"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence v1",
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "properties": {
+        "logicalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contentSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "appliedRulesSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "logicalId",
+        "contentSha256",
+        "appliedRulesSha256"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "logicalTargetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rawTarget": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^(?:@os|(?!(?:.*\\\\|/|.*//|.*(?:^|/)\\.{1,2}(?:/|$)))[^/]+(?:/[^/]+)*)$"
+        },
+        "class": {
+          "enum": [
+            "os-pkgs",
+            "lang-pkgs"
+          ]
+        },
+        "ecosystem": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {
+          "type": "boolean"
+        },
+        "coverage": {
+          "enum": [
+            "scanned",
+            "missing",
+            "excluded",
+            "failed",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "logicalTargetId",
+        "rawTarget",
+        "path",
+        "class",
+        "ecosystem",
+        "expected",
+        "coverage"
+      ],
+      "additionalProperties": false
+    },
+    "inputRef": {
+      "type": "object",
+      "properties": {
+        "side": {
+          "enum": [
+            "before",
+            "after"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "report",
+            "manifest"
+          ]
+        },
+        "pointer": {
+          "type": "string",
+          "pattern": "^(?:|/.*)$"
+        }
+      },
+      "required": [
+        "side",
+        "kind",
+        "pointer"
+      ],
+      "additionalProperties": false
+    },
+    "reason": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "INPUT_UNREADABLE",
+            "INPUT_LIMIT_EXCEEDED",
+            "INPUT_INVALID_JSON",
+            "INPUT_SCHEMA_INVALID",
+            "UNSUPPORTED_REPORT_SCHEMA",
+            "UNSUPPORTED_PROFILE",
+            "MANIFEST_REQUIRED_MISSING",
+            "MANIFEST_VERSION_UNSUPPORTED",
+            "REPORT_HASH_MISMATCH",
+            "IMAGE_EVIDENCE_MISMATCH",
+            "SCANNER_VERSION_MISMATCH",
+            "DB_SNAPSHOT_MISSING",
+            "DB_SNAPSHOT_MISMATCH",
+            "CONFIG_INCOMPLETE",
+            "CONFIG_MISMATCH",
+            "EXIT_POLICY_MISMATCH",
+            "TARGET_ID_MISMATCH",
+            "SCOPE_SET_MISMATCH",
+            "SCOPE_NOT_SCANNED",
+            "RESULT_SCOPE_MISMATCH",
+            "EXECUTION_FAILED",
+            "EXECUTION_INCOMPLETE",
+            "EXECUTION_STATUS_UNKNOWN",
+            "IDENTITY_MISSING",
+            "IDENTITY_PATH_INVALID",
+            "DUPLICATE_IDENTITY",
+            "NEW_OBSERVATION",
+            "SAME_IDENTITY",
+            "NOT_DETECTED_UNDER_EQUAL_CONDITIONS"
+          ]
+        },
+        "refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inputRef"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "code",
+        "refs"
+      ],
+      "additionalProperties": false
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "imageLogicalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetLogicalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^(?:@os|(?!(?:.*\\\\|/|.*//|.*(?:^|/)\\.{1,2}(?:/|$)))[^/]+(?:/[^/]+)*)$"
+        },
+        "class": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ecosystem": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packageName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vulnerabilityId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "imageLogicalId",
+        "targetLogicalId",
+        "path",
+        "class",
+        "ecosystem",
+        "packageName",
+        "vulnerabilityId"
+      ],
+      "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/inputRef"
+        },
+        "installedVersion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fixedVersion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pkgId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "purl": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pkgPath": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "source",
+        "installedVersion",
+        "fixedVersion",
+        "status",
+        "pkgId",
+        "purl",
+        "severity",
+        "title",
+        "pkgPath"
+      ],
+      "additionalProperties": false
+    },
+    "scanEvidence": {
+      "type": "object",
+      "properties": {
+        "scanner": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "trivy"
+            },
+            "mode": {
+              "const": "image"
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "name",
+            "mode",
+            "version"
+          ],
+          "additionalProperties": false
+        },
+        "databases": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "snapshotSha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "schemaVersion": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "updatedAt": {
+                "type": "string",
+                "minLength": 1
+              },
+              "repository": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ociDigest": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "role",
+              "snapshotSha256",
+              "schemaVersion",
+              "updatedAt",
+              "repository",
+              "ociDigest"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "effectiveConfig": {
+          "type": "object",
+          "properties": {
+            "completeness": {
+              "enum": [
+                "complete",
+                "unknown"
+              ]
+            },
+            "scanners": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "vuln"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "packageTypes": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "os",
+                  "library"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "severity": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "UNKNOWN",
+                  "LOW",
+                  "MEDIUM",
+                  "HIGH",
+                  "CRITICAL"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "ignoreUnfixed": {
+              "type": "boolean"
+            },
+            "ignoreStatus": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "skipDirs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "skipFiles": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "ignoreFiles": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/asset"
+              },
+              "uniqueItems": true
+            },
+            "vex": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/asset"
+              },
+              "uniqueItems": true
+            },
+            "regoPolicies": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/asset"
+              },
+              "uniqueItems": true
+            },
+            "configFiles": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/asset"
+              },
+              "uniqueItems": true
+            },
+            "extraOptions": {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "completeness",
+            "scanners",
+            "packageTypes",
+            "severity",
+            "ignoreUnfixed",
+            "ignoreStatus",
+            "skipDirs",
+            "skipFiles",
+            "ignoreFiles",
+            "vex",
+            "regoPolicies",
+            "configFiles",
+            "extraOptions"
+          ],
+          "additionalProperties": false
+        },
+        "target": {
+          "type": "object",
+          "properties": {
+            "logicalId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "imageDigest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "platform": {
+              "type": "object",
+              "properties": {
+                "os": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "architecture": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "variant": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "os",
+                "architecture",
+                "variant"
+              ],
+              "additionalProperties": false
+            },
+            "scopes": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/scope"
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "logicalId",
+            "imageDigest",
+            "platform",
+            "scopes"
+          ],
+          "additionalProperties": false
+        },
+        "execution": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "completed": {
+              "type": "boolean"
+            },
+            "reportComplete": {
+              "type": "boolean"
+            },
+            "exitCode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "configuredExitCode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "configuredExitOnEol": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "exitCause": {
+              "enum": [
+                "normal",
+                "findings_policy",
+                "failure",
+                "unknown"
+              ]
+            }
+          },
+          "required": [
+            "success",
+            "completed",
+            "reportComplete",
+            "exitCode",
+            "configuredExitCode",
+            "configuredExitOnEol",
+            "exitCause"
+          ],
+          "additionalProperties": false
+        },
+        "reportMetadata": {
+          "type": "object",
+          "properties": {
+            "imageId": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "repoDigests": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "imageId",
+            "repoDigests"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "scanner",
+        "databases",
+        "effectiveConfig",
+        "target",
+        "execution",
+        "reportMetadata"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

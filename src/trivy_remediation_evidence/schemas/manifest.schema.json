@@ -1,0 +1,400 @@
+{
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "reportSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "scanner": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "const": "trivy"
+        },
+        "mode": {
+          "const": "image"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name",
+        "mode",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "databases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "snapshotSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "schemaVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "updatedAt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repository": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ociDigest": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "role",
+          "snapshotSha256",
+          "schemaVersion",
+          "updatedAt",
+          "repository",
+          "ociDigest"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "effectiveConfig": {
+      "type": "object",
+      "properties": {
+        "completeness": {
+          "enum": [
+            "complete",
+            "unknown"
+          ]
+        },
+        "scanners": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "vuln"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "packageTypes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "os",
+              "library"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "severity": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "UNKNOWN",
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "CRITICAL"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "ignoreUnfixed": {
+          "type": "boolean"
+        },
+        "ignoreStatus": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "skipDirs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "skipFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "ignoreFiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/asset"
+          },
+          "uniqueItems": true
+        },
+        "vex": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/asset"
+          },
+          "uniqueItems": true
+        },
+        "regoPolicies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/asset"
+          },
+          "uniqueItems": true
+        },
+        "configFiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/asset"
+          },
+          "uniqueItems": true
+        },
+        "extraOptions": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "completeness",
+        "scanners",
+        "packageTypes",
+        "severity",
+        "ignoreUnfixed",
+        "ignoreStatus",
+        "skipDirs",
+        "skipFiles",
+        "ignoreFiles",
+        "vex",
+        "regoPolicies",
+        "configFiles",
+        "extraOptions"
+      ],
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "logicalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "imageDigest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "platform": {
+          "type": "object",
+          "properties": {
+            "os": {
+              "type": "string",
+              "minLength": 1
+            },
+            "architecture": {
+              "type": "string",
+              "minLength": 1
+            },
+            "variant": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "os",
+            "architecture",
+            "variant"
+          ],
+          "additionalProperties": false
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/scope"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "logicalId",
+        "imageDigest",
+        "platform",
+        "scopes"
+      ],
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "reportComplete": {
+          "type": "boolean"
+        },
+        "exitCode": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "configuredExitCode": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "configuredExitOnEol": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "exitCause": {
+          "enum": [
+            "normal",
+            "findings_policy",
+            "failure",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "success",
+        "completed",
+        "reportComplete",
+        "exitCode",
+        "configuredExitCode",
+        "configuredExitOnEol",
+        "exitCause"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "reportSha256",
+    "scanner",
+    "databases",
+    "effectiveConfig",
+    "target",
+    "execution"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Run manifest v1",
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "properties": {
+        "logicalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contentSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "appliedRulesSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "logicalId",
+        "contentSha256",
+        "appliedRulesSha256"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "logicalTargetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rawTarget": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^(?:@os|(?!(?:.*\\\\|/|.*//|.*(?:^|/)\\.{1,2}(?:/|$)))[^/]+(?:/[^/]+)*)$"
+        },
+        "class": {
+          "enum": [
+            "os-pkgs",
+            "lang-pkgs"
+          ]
+        },
+        "ecosystem": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {
+          "type": "boolean"
+        },
+        "coverage": {
+          "enum": [
+            "scanned",
+            "missing",
+            "excluded",
+            "failed",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "logicalTargetId",
+        "rawTarget",
+        "path",
+        "class",
+        "ecosystem",
+        "expected",
+        "coverage"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

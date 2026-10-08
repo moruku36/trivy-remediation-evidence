@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=65.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trivy-remediation-evidence"
+version = "0.1.0"
+description = "Deterministic evidence generator for Trivy remediation verification"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "jsonschema>=4.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "wheel>=0.38.0",
+]
+
+[project.scripts]
+trivy-remediation-evidence = "trivy_remediation_evidence.cli:main"
+
+[tool.setuptools.package-data]
+trivy_remediation_evidence = ["schemas/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

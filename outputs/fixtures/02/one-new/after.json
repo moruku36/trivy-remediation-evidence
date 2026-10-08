@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-10-09T00:00:00Z",
+  "ArtifactName": "synthetic.example/app:test",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "ImageID": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "RepoDigests": [
+      "synthetic.example/app@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    ],
+    "ImageConfig": {
+      "os": "linux",
+      "architecture": "amd64"
+    }
+  },
+  "Results": [
+    {
+      "Target": "app/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "SYNTH-001",
+          "PkgName": "demo",
+          "InstalledVersion": "1.0.0",
+          "FixedVersion": "2.0.0",
+          "Status": "fixed",
+          "Severity": "HIGH",
+          "Title": "synthetic | [link](javascript:alert(1)) <img src=x> `code`\n# heading ‮",
+          "PkgID": "demo@1.0.0",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/demo@1.0.0"
+          }
+        },
+        {
+          "VulnerabilityID": "SYNTH-002",
+          "PkgName": "demo",
+          "InstalledVersion": "1.0.0",
+          "FixedVersion": "2.0.0",
+          "Status": "fixed",
+          "Severity": "HIGH",
+          "Title": "synthetic | [link](javascript:alert(1)) <img src=x> `code`\n# heading ‮",
+          "PkgID": "demo@1.0.0",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/demo@1.0.0"
+          }
+        }
+      ]
+    }
+  ]
+}

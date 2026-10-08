@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "reportSha256": "73e8fa617352f69d3dfb2f132c35e03e489b37b71f817b86c1cf64f97f5eb2f4",
+  "scanner": {
+    "name": "trivy",
+    "mode": "image",
+    "version": "0.0.0-synthetic"
+  },
+  "databases": [
+    {
+      "role": "vuln",
+      "snapshotSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "schemaVersion": 2,
+      "updatedAt": "2026-10-08T00:00:00Z",
+      "repository": "synthetic.example/trivy-db:2",
+      "ociDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  ],
+  "effectiveConfig": {
+    "completeness": "complete",
+    "scanners": [
+      "vuln"
+    ],
+    "packageTypes": [
+      "os",
+      "library"
+    ],
+    "severity": [
+      "CRITICAL",
+      "HIGH",
+      "MEDIUM",
+      "LOW",
+      "UNKNOWN"
+    ],
+    "ignoreUnfixed": false,
+    "ignoreStatus": [],
+    "skipDirs": [],
+    "skipFiles": [],
+    "ignoreFiles": [],
+    "vex": [],
+    "regoPolicies": [],
+    "configFiles": [],
+    "extraOptions": {
+      "detection-priority": "precise",
+      "list-all-pkgs": false,
+      "offline-scan": true,
+      "skip-db-update": true,
+      "skip-java-db-update": true
+    }
+  },
+  "target": {
+    "logicalId": "synthetic-app",
+    "imageDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "platform": {
+      "os": "linux",
+      "architecture": "amd64",
+      "variant": ""
+    },
+    "scopes": [
+      {
+        "logicalTargetId": "py-lock",
+        "rawTarget": "srv/requirements.txt",
+        "path": "srv/requirements.txt",
+        "class": "lang-pkgs",
+        "ecosystem": "pip",
+        "expected": true,
+        "coverage": "scanned"
+      },
+      {
+        "logicalTargetId": "app-lock",
+        "rawTarget": "app/package-lock.json",
+        "path": "app/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "expected": true,
+        "coverage": "scanned"
+      }
+    ]
+  },
+  "execution": {
+    "success": true,
+    "completed": true,
+    "reportComplete": true,
+    "exitCode": 0,
+    "configuredExitCode": 0,
+    "configuredExitOnEol": 0,
+    "exitCause": "normal"
+  }
+}

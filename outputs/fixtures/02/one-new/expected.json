@@ -1,0 +1,55 @@
+{
+  "oracleVersion": 1,
+  "comparison": "comparable",
+  "cliExitCode": 0,
+  "globalReasonCodes": [],
+  "observedCounts": {
+    "before": 1,
+    "after": 2
+  },
+  "summary": {
+    "new": 1,
+    "persistent": 1,
+    "not_detected": 0,
+    "comparison_unavailable": 0
+  },
+  "items": [
+    {
+      "identity": {
+        "imageLogicalId": "synthetic-app",
+        "targetLogicalId": "app-lock",
+        "path": "app/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "packageName": "demo",
+        "vulnerabilityId": "SYNTH-001"
+      },
+      "classification": "persistent",
+      "beforePointers": [
+        "/Results/0/Vulnerabilities/0"
+      ],
+      "afterPointers": [
+        "/Results/0/Vulnerabilities/0"
+      ],
+      "remediationConclusion": "not_established"
+    },
+    {
+      "identity": {
+        "imageLogicalId": "synthetic-app",
+        "targetLogicalId": "app-lock",
+        "path": "app/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "packageName": "demo",
+        "vulnerabilityId": "SYNTH-002"
+      },
+      "classification": "new",
+      "beforePointers": [],
+      "afterPointers": [
+        "/Results/0/Vulnerabilities/1"
+      ],
+      "remediationConclusion": "not_established"
+    }
+  ],
+  "assertions": []
+}

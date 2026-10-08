@@ -1,0 +1,151 @@
+{
+  "type": "object",
+  "properties": {
+    "SchemaVersion": {
+      "const": 2
+    },
+    "ArtifactType": {
+      "const": "container_image"
+    },
+    "ArtifactName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "Metadata": {
+      "type": "object",
+      "properties": {
+        "RepoDigests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "ImageID": {
+          "type": "string"
+        },
+        "ImageConfig": {
+          "type": "object",
+          "properties": {
+            "os": {
+              "type": "string",
+              "minLength": 1
+            },
+            "architecture": {
+              "type": "string",
+              "minLength": 1
+            },
+            "variant": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "os",
+            "architecture"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "RepoDigests",
+        "ImageConfig"
+      ],
+      "additionalProperties": true
+    },
+    "Results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "Class": {
+            "enum": [
+              "os-pkgs",
+              "lang-pkgs"
+            ]
+          },
+          "Type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "Vulnerabilities": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "VulnerabilityID": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "PkgName": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "PkgPath": {
+                      "type": "string"
+                    },
+                    "InstalledVersion": {
+                      "type": "string"
+                    },
+                    "FixedVersion": {
+                      "type": "string"
+                    },
+                    "Status": {
+                      "type": "string"
+                    },
+                    "PkgID": {
+                      "type": "string"
+                    },
+                    "PkgIdentifier": {
+                      "type": "object",
+                      "properties": {
+                        "PURL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "additionalProperties": true
+                    },
+                    "Severity": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": true
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "Target",
+          "Class",
+          "Type"
+        ],
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": [
+    "SchemaVersion",
+    "ArtifactType",
+    "ArtifactName",
+    "Metadata",
+    "Results"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Accepted Trivy report subset; identity requirements are semantic gates"
+}

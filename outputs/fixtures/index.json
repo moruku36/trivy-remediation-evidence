@@ -1,0 +1,122 @@
+[
+  {
+    "case": 1,
+    "variant": "array-order-only",
+    "folder": "fixtures/01/array-order-only",
+    "description": "Result/設定集合/scope配列順だけ差"
+  },
+  {
+    "case": 2,
+    "variant": "one-new",
+    "folder": "fixtures/02/one-new",
+    "description": "同条件で1件新規"
+  },
+  {
+    "case": 3,
+    "variant": "one-not-detected",
+    "folder": "fixtures/03/one-not-detected",
+    "description": "同条件で1件今回未検出"
+  },
+  {
+    "case": 4,
+    "variant": "version-update-persistent",
+    "folder": "fixtures/04/version-update-persistent",
+    "description": "版・PkgID・version付きPURL更新でも同identity継続"
+  },
+  {
+    "case": 5,
+    "variant": "same-name-distinct-path-ecosystem",
+    "folder": "fixtures/05/same-name-distinct-path-ecosystem",
+    "description": "同名同IDでも別path/ecosystemを混同しない"
+  },
+  {
+    "case": 5,
+    "variant": "ambiguous-duplicate",
+    "folder": "fixtures/05/ambiguous-duplicate",
+    "description": "識別不能な同path重複"
+  },
+  {
+    "case": 6,
+    "variant": "scope-missing",
+    "folder": "fixtures/06/scope-missing",
+    "description": "範囲/除外/Result欠落で比較不可"
+  },
+  {
+    "case": 6,
+    "variant": "scope-excluded",
+    "folder": "fixtures/06/scope-excluded",
+    "description": "範囲/除外/Result欠落で比較不可"
+  },
+  {
+    "case": 6,
+    "variant": "result-missing",
+    "folder": "fixtures/06/result-missing",
+    "description": "範囲/除外/Result欠落で比較不可"
+  },
+  {
+    "case": 7,
+    "variant": "db-changed",
+    "folder": "fixtures/07/db-changed",
+    "description": "DB/設定/manifest/ignore/VEX実適用の差または不足"
+  },
+  {
+    "case": 7,
+    "variant": "config-changed",
+    "folder": "fixtures/07/config-changed",
+    "description": "DB/設定/manifest/ignore/VEX実適用の差または不足"
+  },
+  {
+    "case": 7,
+    "variant": "manifest-missing",
+    "folder": "fixtures/07/manifest-missing",
+    "description": "DB/設定/manifest/ignore/VEX実適用の差または不足"
+  },
+  {
+    "case": 7,
+    "variant": "scanner-changed",
+    "folder": "fixtures/07/scanner-changed",
+    "description": "DB/設定/manifest/ignore/VEX実適用の差または不足"
+  },
+  {
+    "case": 7,
+    "variant": "ignore-changed",
+    "folder": "fixtures/07/ignore-changed",
+    "description": "DB/設定/manifest/ignore/VEX実適用の差または不足"
+  },
+  {
+    "case": 7,
+    "variant": "vex-changed",
+    "folder": "fixtures/07/vex-changed",
+    "description": "DB/設定/manifest/ignore/VEX実適用の差または不足"
+  },
+  {
+    "case": 7,
+    "variant": "db-hash-missing",
+    "folder": "fixtures/07/db-hash-missing",
+    "description": "DB/設定/manifest/ignore/VEX実適用の差または不足"
+  },
+  {
+    "case": 8,
+    "variant": "execution-failed",
+    "folder": "fixtures/08/execution-failed",
+    "description": "完全reportでも実行失敗は比較不可"
+  },
+  {
+    "case": 8,
+    "variant": "broken-json",
+    "folder": "fixtures/08/broken-json",
+    "description": "壊れたafter JSON"
+  },
+  {
+    "case": 8,
+    "variant": "policy-nonzero-success",
+    "folder": "fixtures/08/policy-nonzero-success",
+    "description": "検出ポリシー非ゼロは正常比較"
+  },
+  {
+    "case": 8,
+    "variant": "unknown-nonzero",
+    "folder": "fixtures/08/unknown-nonzero",
+    "description": "同じ非ゼロ番号でも原因未確認なら比較不可"
+  }
+]

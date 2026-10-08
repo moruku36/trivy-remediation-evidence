@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "reportSha256": "145bd200aa5f80b3b71a09291d574dd053515505357f2fd3eb48023dbf1a67d2",
+  "scanner": {
+    "name": "trivy",
+    "mode": "image",
+    "version": "0.0.0-synthetic"
+  },
+  "databases": [
+    {
+      "role": "vuln",
+      "snapshotSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "schemaVersion": 2,
+      "updatedAt": "2026-10-08T00:00:00Z",
+      "repository": "synthetic.example/trivy-db:2",
+      "ociDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  ],
+  "effectiveConfig": {
+    "completeness": "complete",
+    "scanners": [
+      "vuln"
+    ],
+    "packageTypes": [
+      "library",
+      "os"
+    ],
+    "severity": [
+      "UNKNOWN",
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "ignoreUnfixed": false,
+    "ignoreStatus": [],
+    "skipDirs": [],
+    "skipFiles": [],
+    "ignoreFiles": [],
+    "vex": [],
+    "regoPolicies": [],
+    "configFiles": [],
+    "extraOptions": {
+      "detection-priority": "precise",
+      "list-all-pkgs": false,
+      "offline-scan": true,
+      "skip-db-update": true,
+      "skip-java-db-update": true
+    }
+  },
+  "target": {
+    "logicalId": "synthetic-app",
+    "imageDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "platform": {
+      "os": "linux",
+      "architecture": "amd64",
+      "variant": ""
+    },
+    "scopes": [
+      {
+        "logicalTargetId": "app-lock",
+        "rawTarget": "app/package-lock.json",
+        "path": "app/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "expected": true,
+        "coverage": "scanned"
+      },
+      {
+        "logicalTargetId": "other-lock",
+        "rawTarget": "other/package-lock.json",
+        "path": "other/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "expected": true,
+        "coverage": "scanned"
+      },
+      {
+        "logicalTargetId": "py-lock",
+        "rawTarget": "srv/requirements.txt",
+        "path": "srv/requirements.txt",
+        "class": "lang-pkgs",
+        "ecosystem": "pip",
+        "expected": true,
+        "coverage": "scanned"
+      }
+    ]
+  },
+  "execution": {
+    "success": true,
+    "completed": true,
+    "reportComplete": true,
+    "exitCode": 0,
+    "configuredExitCode": 0,
+    "configuredExitOnEol": 0,
+    "exitCause": "normal"
+  }
+}

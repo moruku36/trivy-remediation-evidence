@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "reportSha256": "bfcddd14408d84f928f104fddc15088432d0f4b1e3da5de9cd641abd935184d9",
+  "scanner": {
+    "name": "trivy",
+    "mode": "image",
+    "version": "0.0.0-synthetic"
+  },
+  "databases": [
+    {
+      "role": "vuln",
+      "snapshotSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "schemaVersion": 2,
+      "updatedAt": "2026-10-08T00:00:00Z",
+      "repository": "synthetic.example/trivy-db:2",
+      "ociDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  ],
+  "effectiveConfig": {
+    "completeness": "complete",
+    "scanners": [
+      "vuln"
+    ],
+    "packageTypes": [
+      "library",
+      "os"
+    ],
+    "severity": [
+      "UNKNOWN",
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "ignoreUnfixed": false,
+    "ignoreStatus": [],
+    "skipDirs": [],
+    "skipFiles": [],
+    "ignoreFiles": [],
+    "vex": [],
+    "regoPolicies": [],
+    "configFiles": [],
+    "extraOptions": {
+      "detection-priority": "precise",
+      "list-all-pkgs": false,
+      "offline-scan": true,
+      "skip-db-update": true,
+      "skip-java-db-update": true
+    }
+  },
+  "target": {
+    "logicalId": "synthetic-app",
+    "imageDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "platform": {
+      "os": "linux",
+      "architecture": "amd64",
+      "variant": ""
+    },
+    "scopes": [
+      {
+        "logicalTargetId": "app-lock",
+        "rawTarget": "app/package-lock.json",
+        "path": "app/package-lock.json",
+        "class": "lang-pkgs",
+        "ecosystem": "npm",
+        "expected": true,
+        "coverage": "scanned"
+      }
+    ]
+  }
+}
